@@ -1,0 +1,37 @@
+.checkItem {
+    margin: 10px 30px;
+    display: flex;
+    align-items: center;
+}
+
+.name {
+    padding: 5px 20px;
+    font-size: 18px;
+    margin-right: 10px;
+    border-radius: 15px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.8);
+    cursor: pointer;
+}
+
+.name:hover {
+    background-color: #F0F0F0;
+    box-shadow: 0 0 15px rgba(0,0,0,0.8);
+}
+
+.delete {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #FF7A7A;
+    background-image: url("https://image.flaticon.com/icons/png/512/61/61848.png");
+    background-size: 60%;
+    background-position: center;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.delete:hover {
+    width: 26px;
+    height: 26px;
+    border: 2px solid #333333;
+}
