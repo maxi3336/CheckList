@@ -1,14 +1,12 @@
 import React from 'react'
 import style from './CheckListItem.module.css'
 
-const CheckListItem = () => {
-
-    //checkItems = CheckListsArray.map((check) => {<CheckListItem />})
+const CheckListItem = (props) => {
 
     return (
         <div className={style.checkItem}>
-            <div className={style.name}>Films</div>
-            <div className={style.delete}/>
+            <div className={style.name}>{props.name}</div>
+            <div className={style.delete} onClick={props.dltCheck}/>
         </div>
     )
 }

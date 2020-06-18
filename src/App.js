@@ -1,10 +1,9 @@
 import React from 'react'
-import style from './App.module.css'
-import Main from "./components/Main/Main";
+import MainContainer from "./components/Main/MainContainer";
 
 const App = () => {
     return(
-        <Main />
+        <MainContainer />
     )
 }
 

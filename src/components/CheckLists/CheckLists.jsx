@@ -1,19 +1,14 @@
 import React from 'react'
 import style from './CheckLists.module.css'
-import CheckListItem from "./CheckListItem/CheckListItem";
+import CheckListItemContainer from "./CheckListItem/CheckListItemContainer";
 
-const CheckLists = () => {
+const CheckLists = (props) => {
 
-    //checkItems = CheckListsArray.map((check) => {<CheckListItem />})
+    let checkItems = props.lists.map(check => <CheckListItemContainer id={check.id} name={check.name}/>)
 
     return (
         <div className={style.check}>
-            {/*checkItems*/}
-            <CheckListItem />
-            <CheckListItem />
-            <CheckListItem />
-            <CheckListItem />
-            <CheckListItem />
+            {checkItems}
         </div>
     )
 }

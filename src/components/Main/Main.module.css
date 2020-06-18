@@ -12,25 +12,39 @@
     letter-spacing: 0.2em;
 }
 
+.area {
+    outline: none;
+    width: 70%;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.6);
+}
+
 .add {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    border: 1px solid #79FF3C;
-    background-color: #CAFFB2;
-    background-image: url("https://cdn4.iconfinder.com/data/icons/ios7-essence/22/add_plus-512.png");
-    background-position: center;
-    background-size: 90%;
-    background-repeat: no-repeat;
+    outline: none;
+    padding: 5px 15px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    background-color: #a5e3ff;
     cursor: pointer;
 }
 
 .add:hover {
-    background-color: #D7FFC4;
-    background-size: 92%;
-    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    box-shadow: 0 0 5px rgba(0,0,0,.8);
+    background-color: #BDEBFF;
 }
 
 .add:active {
-    background-color: #97FF66;
+    background-color: #6BD2FF;
 }
+
+.addList {
+    display: flex;
+    width: 30%;
+    align-items: center;
+    justify-content: space-around;
+}
+
+
