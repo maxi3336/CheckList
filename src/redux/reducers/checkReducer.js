@@ -1,6 +1,10 @@
 const ADD_LIST = 'ADD-LIST'
 const UPDATE_TEXT = 'UPDATE-TEXT'
 const DELETE_LIST = 'DELETE-LIST'
+const ADD_DO = 'ADD-DO'
+const UPDATE_DO_TEXT = 'UPDATE-DO-TEXT'
+const UPDATE_MARK = 'UPDATE-MARK'
+const DELETE_DO = 'DELETE-DO'
 
 let initialState = {
     lists: [
@@ -9,36 +13,14 @@ let initialState = {
             name: 'Films',
             paragraph: [
                 {
-                    name: 'Adventure',
                     id: 1,
-                    subparagraph: [
-                        {
-                            id: 1,
-                            name: 'Мстители',
-                            mark: false
-                        },
-                        {
-                            id: 2,
-                            name: 'Человек-Паук',
-                            mark: false
-                        }
-                    ]
+                    name: 'Kingsman',
+                    mark: false
                 },
                 {
-                    name: 'Horror',
                     id: 2,
-                    subparagraph: [
-                        {
-                            id: 1,
-                            name: 'Заклятье',
-                            mark: true
-                        },
-                        {
-                            id: 2,
-                            name: 'Проклятье Анабель',
-                            mark: false
-                        }
-                    ]
+                    name: 'Человек-Паук',
+                    mark: false
                 }
             ]
         },
@@ -47,42 +29,22 @@ let initialState = {
             name: 'Books',
             paragraph: [
                 {
-                    name: 'Adventure',
                     id: 1,
-                    subparagraph: [
-                        {
-                            id: 1,
-                            name: 'Мстители',
-                            mark: false
-                        },
-                        {
-                            id: 2,
-                            name: 'Человек-Паук',
-                            mark: false
-                        }
-                    ]
+                    name: 'Шерлок Холмс',
+                    mark: false
                 },
                 {
-                    name: 'Horror',
                     id: 2,
-                    subparagraph: [
-                        {
-                            id: 1,
-                            name: 'Заклятье',
-                            mark: true
-                        },
-                        {
-                            id: 2,
-                            name: 'Проклятье Анабель',
-                            mark: false
-                        }
-                    ]
+                    name: 'Стив Джобс',
+                    mark: false
                 }
             ]
         }
     ],
 
-    newText: ''
+    newText: '',
+
+    newDoText: ''
 }
 
 let findIdOfList = (state, id) => {
@@ -94,10 +56,26 @@ let findIdOfList = (state, id) => {
     return listId
 }
 
+let findIdOfDo = (state, listId, id) => {
+    let doId
+    for(let i = 0; i < state.lists[listId-1].paragraph.length; i++) {
+        if(state.lists[listId-1].paragraph[i].id === id)
+            doId = i
+    }
+    return doId
+}
+
 const checkReducer = (state = initialState, action) => {
+    let copyState
+    let id
+    let listId
 
     switch(action.type) {
         case ADD_LIST:
+            if (state.newText === '') {
+                alert('Please write something!')
+                return state
+            }
             return {
                 ...state,
                 newText: '',
@@ -111,12 +89,49 @@ const checkReducer = (state = initialState, action) => {
             }
 
         case DELETE_LIST:
-            let copyState = {
+            copyState = {
                 ...state,
                 lists: [...state.lists]
             }
-            let id = findIdOfList(copyState, action.id)
+            id = findIdOfList(copyState, action.id)
             copyState.lists.splice(id, 1)
+            return copyState
+
+        case UPDATE_DO_TEXT:
+            return {
+                ...state,
+                newDoText: action.newText
+            }
+
+        case ADD_DO:
+            if (state.newDoText === '') {
+                alert('Please write something!')
+                return state
+            }
+            copyState = {
+                ...state,
+                newDoText: ''
+            }
+            id = findIdOfList(copyState, action.listId)
+            copyState.lists[id].paragraph.push({id: state.lists[id].paragraph.length+1, name: state.newDoText, mark:false})
+            return copyState
+
+        case DELETE_DO:
+            copyState = {
+                ...state
+            }
+            listId = findIdOfList(copyState,action.listId)
+            id = findIdOfDo(copyState, action.listId, action.doId)
+            copyState.lists[listId].paragraph.splice(id, 1)
+            return copyState
+
+        case UPDATE_MARK:
+            copyState = {
+                ...state
+            }
+            listId = findIdOfList(copyState,action.listId)
+            id = findIdOfDo(copyState, action.listId, action.doId)
+            copyState.lists[listId].paragraph[id].mark = action.mark
             return copyState
     }
 
@@ -138,6 +153,30 @@ export const deleteListActionCreator = (id) => ({
     type: DELETE_LIST,
     id: id
 })
+
+export const addDoActionCreator = (listId) => ({
+    type: ADD_DO,
+    listId: listId
+})
+
+export const updateDoTextActionCreator = (text) => ({
+    type: UPDATE_DO_TEXT,
+    newText: text
+})
+
+export const deleteDoActionCreator = (listId, doId) => ({
+    type: DELETE_DO,
+    listId: listId,
+    doId: doId
+})
+
+export const updateMarkActionCreator = (listId, doId, mark) => ({
+    type: UPDATE_MARK,
+    listId: listId,
+    doId: doId,
+    mark: mark
+})
+
 
 
 export default checkReducer

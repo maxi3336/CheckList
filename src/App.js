@@ -3,7 +3,9 @@ import MainContainer from "./components/Main/MainContainer";
 
 const App = () => {
     return(
-        <MainContainer />
+        <div>
+            <MainContainer/>
+        </div>
     )
 }
 

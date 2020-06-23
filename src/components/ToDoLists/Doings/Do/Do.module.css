@@ -1,0 +1,8 @@
+.do {
+    display: flex;
+    width: 90%;
+    min-height: content-box;
+    margin-bottom: 30px;
+    justify-content: space-between;
+    align-items: center;
+}
