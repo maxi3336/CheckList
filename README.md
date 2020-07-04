@@ -4,4 +4,3 @@ To run project you need:
     2) do 'npm install'
     3) do 'npm start'
 
-Or visit it: https://check-list-72a4b.web.app/
