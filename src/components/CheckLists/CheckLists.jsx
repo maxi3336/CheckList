@@ -7,11 +7,11 @@ import {Route} from "react-router-dom";
 const CheckLists = (props) => {
 
     let checkItems = props.lists.map(check => {
-        return <CheckListItemContainer id={check.id} name={check.name}/>
+        return <CheckListItemContainer key={check.id} id={check.id} name={check.name}/>
     })
 
     let checkNames = props.lists.map(check => {
-        return <Route path={`/${check.name}`} render={() => <MainToDo id={check.id} name={check.name}/>}/>
+        return <Route key={check.id} path={`/${check.name}`} render={() => <MainToDo key={check.id} id={check.id} name={check.name}/>}/>
     })
 
     return (

@@ -5,7 +5,6 @@ import CheckListsContainer from "../CheckLists/CheckListsContainer";
 const Main = (props) => {
 
     let onTextChange = (event) => {
-        debugger
         props.updateText(event.target.value)
     }
 

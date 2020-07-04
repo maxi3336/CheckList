@@ -47,28 +47,7 @@ let initialState = {
     newDoText: ''
 }
 
-let findIdOfList = (state, id) => {
-    let listId
-    for(let i = 0; i < state.lists.length; i++) {
-        if(state.lists[i].id === id)
-            listId = i
-    }
-    return listId
-}
-
-let findIdOfDo = (state, listId, id) => {
-    let doId
-    for(let i = 0; i < state.lists[listId-1].paragraph.length; i++) {
-        if(state.lists[listId-1].paragraph[i].id === id)
-            doId = i
-    }
-    return doId
-}
-
 const checkReducer = (state = initialState, action) => {
-    let copyState
-    let id
-    let listId
 
     switch(action.type) {
         case ADD_LIST:
@@ -76,10 +55,11 @@ const checkReducer = (state = initialState, action) => {
                 alert('Please write something!')
                 return state
             }
+
             return {
                 ...state,
                 newText: '',
-                lists: [...state.lists, {id: state.lists.length + 1, name: state.newText, paragraph: []}]
+                lists: [...state.lists, {id: Math.round(Math.random()*100), name: state.newText, paragraph: []}]
             }
 
         case UPDATE_TEXT:
@@ -89,13 +69,10 @@ const checkReducer = (state = initialState, action) => {
             }
 
         case DELETE_LIST:
-            copyState = {
+            return {
                 ...state,
-                lists: [...state.lists]
+                lists: state.lists.filter(list => (list.id !== action.id))
             }
-            id = findIdOfList(copyState, action.id)
-            copyState.lists.splice(id, 1)
-            return copyState
 
         case UPDATE_DO_TEXT:
             return {
@@ -108,31 +85,44 @@ const checkReducer = (state = initialState, action) => {
                 alert('Please write something!')
                 return state
             }
-            copyState = {
+            return  {
                 ...state,
+                lists: state.lists.map(list => {
+                    if(list.id === action.listId){
+                        list.paragraph.push({id: Math.round(Math.random()*100), name: state.newDoText, mark: false})
+                    }
+                    return list
+                }),
                 newDoText: ''
             }
-            id = findIdOfList(copyState, action.listId)
-            copyState.lists[id].paragraph.push({id: state.lists[id].paragraph.length+1, name: state.newDoText, mark:false})
-            return copyState
 
         case DELETE_DO:
-            copyState = {
-                ...state
+            return  {
+                ...state,
+                lists: state.lists.map(list => {
+                    if(list.id === action.listId) {
+                        debugger
+                        list.paragraph = list.paragraph.filter(doItem => (doItem.id !== action.doId))
+                    }
+                    return list
+                })
             }
-            listId = findIdOfList(copyState,action.listId)
-            id = findIdOfDo(copyState, action.listId, action.doId)
-            copyState.lists[listId].paragraph.splice(id, 1)
-            return copyState
 
         case UPDATE_MARK:
-            copyState = {
-                ...state
+            return {
+                ...state,
+                lists: state.lists.map(list => {
+                    if(list.id === action.listId) {
+                        list.paragraph.map(doItem => {
+                            if(doItem.id === action.doId) {
+                                doItem.mark = action.mark
+                            }
+                            return doItem
+                        })
+                    }
+                    return list
+                })
             }
-            listId = findIdOfList(copyState,action.listId)
-            id = findIdOfDo(copyState, action.listId, action.doId)
-            copyState.lists[listId].paragraph[id].mark = action.mark
-            return copyState
     }
 
     return state
